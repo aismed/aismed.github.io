@@ -2,18 +2,18 @@ var hospitales = angular.module("hospitales", []);
 var actual = {};
 
 hospitales.controller('listado', function($scope, $http) {
+  $scope.datos = [];
   setInterval(function() {
     if (document.getElementById("search") !== document.activeElement) {
       $scope.borrar = false;
     }
   }, 100);
-  if (localStorage["DATOS"] !== undefined) {
-    $scope.datos = JSON.parse(localStorage["DATOS"]); 
-  }
   
   if (typeof(data)!="undefined") {
     $scope.datos = data;
     localStorage["DATOS"] = JSON.stringify(data);
+  }else if (typeof(localStorage["DATOS"]) != "undefined") {
+    $scope.datos = JSON.parse(localStorage["DATOS"]); 
   }
   $scope.panelsh = false;
   $scope.panelp = true;
@@ -54,16 +54,15 @@ hospitales.controller('listado', function($scope, $http) {
   $scope.tomarfoto = function() {
     var oSerializer = new XMLSerializer();
     localStorage["mapa"]=oSerializer.serializeToString(document.getElementById("Mapa"));
-    $("#tomarfoto").notify("Foto Tomada", "success");
+    Materialize.toast('Foto Tomada', 3000, 'rounded')
   };
   $scope.cargarfoto = function() {
     if (localStorage["mapa"] !== undefined) {
       document.getElementById("Mapa").innerHTML = localStorage["mapa"];
       first_time = true;
-      $("#cargarfoto").notify("Foto Cargada", "success");
+      Materialize.toast('Foto Cargada', 3000, 'rounded')
     }else {
-      $("#cargarfoto").notify("No possees una ultima foto guardada", "error");
-      alert("");
+      Materialize.toast('No possees una ultima foto guardada', 3000, 'rounded')
     }
   };
   $scope.recargarelmapa = function() {
